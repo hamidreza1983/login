@@ -8,8 +8,6 @@ from django.contrib.auth.forms import UserCreationForm
 import uuid
 
 # Create your views here.
-
-
 def login_user(request):
     global redirection
 
