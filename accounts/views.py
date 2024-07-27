@@ -40,7 +40,6 @@ def signup(request, token):
     user = Token.objects.get(key=token).user
     if redirection == 0:
         login(request, user)
-        print ('login')
         return redirect('root:home')
     else:
         form = UserCreationForm()
