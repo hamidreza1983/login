@@ -5,6 +5,7 @@ from django.core.mail import send_mail
 from django.contrib.auth import login, password_validation
 from rest_framework.authtoken.models import Token
 from django.contrib.auth.forms import UserCreationForm
+from django.core.exceptions import ObjectDoesNotExist
 import uuid
 
 # Create your views here.
@@ -20,8 +21,11 @@ def login_user(request):
     elif request.method == "POST" :
         try : 
             user = User.objects.get(email=request.POST.get('email'))
+            assert user.password != ""
             redirection = 0
-        except:
+        except AssertionError:
+            redirection = 1
+        except ObjectDoesNotExist:
             user = User.objects.create(email=request.POST.get('email'), username = uuid.uuid4 )
             redirection = 1
         token, create = Token.objects.get_or_create(user=user)
